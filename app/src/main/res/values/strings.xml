@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">TinkoffFintechAndroid</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="popular">Популярные</string>
+    <string name="favorite">Избранное</string>
+</resources>
