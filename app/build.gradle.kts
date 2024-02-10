@@ -49,9 +49,17 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
 
+    // Networking
     implementation(libs.retrofit2.retrofit)
     implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
     implementation(libs.converter.gson)
+
+    // Glide
+    implementation(libs.github.glide)
+    ksp(libs.glide.compiler)
+
+    implementation(libs.github.glide)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

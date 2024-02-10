@@ -1,6 +1,7 @@
 package com.viktorger.tinkofffintechandroid.presentation
 
 import android.os.Bundle
+import android.view.Menu
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -29,7 +30,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         setupNavigation()
-
     }
 
     private fun setupNavigation() {
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         val navController = navHostFragment.navController
 
-        val appBarConfiguration = AppBarConfiguration(navController.graph)
+        // val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding.tbMain.setupWithNavController(navController)
     }
 }
