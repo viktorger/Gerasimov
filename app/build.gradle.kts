@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
     id("androidx.navigation.safeargs.kotlin")
 }
 
@@ -39,6 +40,10 @@ android {
     buildFeatures {
         viewBinding = true
     }
+}
+
+room {
+    schemaDirectory("$projectDir/schemas")
 }
 
 dependencies {
