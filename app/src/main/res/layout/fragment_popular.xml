@@ -6,6 +6,64 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.popular.PopularFragment">
 
+    <ProgressBar
+        android:id="@+id/pb_popular"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_popular_error"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+
+        app:constraint_referenced_ids="iv_popular_error, tv_popular_error, btn_popular_error" />
+
+    <ImageView
+        android:id="@+id/iv_popular_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/no_internet_icon"
+        android:src="@drawable/baseline_cloud_off_100"
+
+        app:layout_constraintBottom_toTopOf="@id/tv_popular_error"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/tv_popular_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="40dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/error_text"
+        android:textAlignment="center"
+        android:textColor="?attr/colorAccent"
+        app:layout_constrainedWidth="true"
+
+        app:layout_constraintBottom_toTopOf="@id/btn_popular_error"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_popular_error" />
+
+    <Button
+        android:id="@+id/btn_popular_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="@string/retry_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_popular_error" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_popular"
         android:layout_width="0dp"
@@ -15,6 +73,8 @@
         android:paddingTop="12dp"
         android:clipToPadding="false"
         android:layout_marginTop="?attr/actionBarSize"
+        android:visibility="gone"
+        tools:visibility="visible"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

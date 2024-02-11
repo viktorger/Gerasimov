@@ -21,36 +21,36 @@
         android:layout_height="0dp"
         android:visibility="gone"
 
-        app:constraint_referenced_ids="iv_details_error, tv_details_error, btn_details_error" />
+        app:constraint_referenced_ids="iv_popular_error, tv_popular_error, btn_details_error" />
 
     <ImageView
-        android:id="@+id/iv_details_error"
+        android:id="@+id/iv_popular_error"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/no_internet_icon"
-        app:layout_constraintVertical_chainStyle="packed"
-
         android:src="@drawable/baseline_cloud_off_100"
-        app:layout_constraintBottom_toTopOf="@id/tv_details_error"
+
+        app:layout_constraintBottom_toTopOf="@id/tv_popular_error"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
-        android:id="@+id/tv_details_error"
+        android:id="@+id/tv_popular_error"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constrainedWidth="true"
-        android:text="@string/error_text"
-        android:textColor="?attr/colorAccent"
-        android:textAlignment="center"
         android:layout_marginHorizontal="40dp"
         android:layout_marginTop="8dp"
+        android:text="@string/error_text"
+        android:textAlignment="center"
+        android:textColor="?attr/colorAccent"
+        app:layout_constrainedWidth="true"
 
+        app:layout_constraintBottom_toTopOf="@id/btn_details_error"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_details_error"
-        app:layout_constraintBottom_toTopOf="@id/btn_details_error" />
+        app:layout_constraintTop_toBottomOf="@id/iv_popular_error" />
 
     <Button
         android:id="@+id/btn_details_error"
@@ -61,19 +61,19 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_details_error" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_popular_error" />
 
     <ScrollView
         android:id="@+id/sv_details"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="gone"
-        tools:visibility="visible"
-
         app:layout_constraintBottom_toBottomOf="parent"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -95,6 +95,18 @@
                 android:orientation="vertical"
                 app:layout_constraintGuide_end="16dp" />
 
+            <ImageView
+                android:id="@+id/iv_details"
+                android:layout_width="0dp"
+                android:layout_height="600dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/movie_poster"
+
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/movie_image" />
 
             <TextView
                 android:id="@+id/tv_details_title"
@@ -138,7 +150,7 @@
                 android:id="@+id/tv_details_genres_list"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@id/tv_details_genres"
+                app:layout_constrainedWidth="true"
                 app:layout_constraintEnd_toStartOf="@+id/gl_details_2"
 
                 app:layout_constraintHorizontal_bias="0"
@@ -150,19 +162,20 @@
                 android:id="@+id/tv_details_countries"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="1dp"
                 android:text="@string/countries"
                 app:layout_constraintEnd_toStartOf="@id/gl_details_2"
 
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toStartOf="@id/gl_details_1"
-                app:layout_constraintTop_toBottomOf="@id/tv_details_genres" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_details_genres_list" />
 
             <TextView
                 android:id="@+id/tv_details_countries_list"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@id/tv_details_countries"
+                app:layout_constrainedWidth="true"
+
                 app:layout_constraintEnd_toStartOf="@+id/gl_details_2"
 
                 app:layout_constraintHorizontal_bias="0"
@@ -170,25 +183,12 @@
                 app:layout_constraintTop_toTopOf="@id/tv_details_countries"
                 tools:text="@string/countries_list" />
 
-            <ImageView
-                android:id="@+id/iv_details"
-                android:layout_width="0dp"
-                android:layout_height="600dp"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/movie_poster"
-
-                android:scaleType="centerCrop"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/movie_image" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </ScrollView>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

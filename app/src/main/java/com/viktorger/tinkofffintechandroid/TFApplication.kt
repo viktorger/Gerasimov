@@ -7,7 +7,7 @@ import com.viktorger.tinkofffintechandroid.di.DaggerAppComponent
 class TFApplication : Application() {
 
     val appComponent: AppComponent by lazy {
-        DaggerAppComponent.create()
+        DaggerAppComponent.factory().create(applicationContext)
     }
 
 }

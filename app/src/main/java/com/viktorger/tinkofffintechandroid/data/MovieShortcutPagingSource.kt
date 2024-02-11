@@ -25,7 +25,6 @@ class MovieShortcutPagingSource(
 
             if (response.isSuccessful) {
                 val apiCallResponseBody = response.body()!!
-                val nextKey = params.loadSize
 
                 LoadResult.Page(
                     data = apiCallResponseBody.films.map { it.asExternalModel() },

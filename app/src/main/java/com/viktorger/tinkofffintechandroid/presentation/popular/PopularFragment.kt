@@ -1,13 +1,17 @@
 package com.viktorger.tinkofffintechandroid.presentation.popular
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isGone
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
+import androidx.paging.RemoteMediator
 import com.viktorger.tinkofffintechandroid.TFApplication
 import com.viktorger.tinkofffintechandroid.databinding.FragmentPopularBinding
 import com.viktorger.tinkofffintechandroid.presentation.adapters.ShortcutAdapter
@@ -25,13 +29,15 @@ class PopularFragment : Fragment() {
     lateinit var viewModelFactory: PopularViewModelFactory
     private val vm: PopularViewModel by viewModels { viewModelFactory }
 
-    private val adapter: ShortcutAdapter by lazy { ShortcutAdapter {
-        val action = PopularFragmentDirections.actionPopularFragmentToMovieDetailsFragment(it)
-        findNavController().navigate(action)
-    } }
+    private val adapter: ShortcutAdapter by lazy {
+        ShortcutAdapter {
+            val action = PopularFragmentDirections.actionPopularFragmentToMovieDetailsFragment(it)
+            findNavController().navigate(action)
+        }
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
         (requireActivity().application as TFApplication).appComponent.inject(this)
     }
 
@@ -52,7 +58,14 @@ class PopularFragment : Fragment() {
 
     private fun initRecycler() {
         val retry = {
-            // TODO
+            adapter.retry()
+        }
+        adapter.addLoadStateListener {
+            val refreshState = it.refresh
+
+            binding.groupPopularError.isGone = refreshState !is LoadState.Error
+            binding.pbPopular.isGone = refreshState !is LoadState.Loading
+            binding.rvPopular.isGone = refreshState !is LoadState.NotLoading
         }
         binding.rvPopular.adapter = adapter.withLoadStateHeaderAndFooter(
             header = ShortcutLoadStateAdapter(retry),
@@ -68,6 +81,9 @@ class PopularFragment : Fragment() {
             vm.movieShortcutFlow.collectLatest {
                 adapter.submitData(it)
             }
+        }
+        binding.btnPopularError.setOnClickListener {
+            adapter.retry()
         }
     }
 

@@ -3,7 +3,9 @@ package com.viktorger.tinkofffintechandroid.network.model
 import com.viktorger.tinkofffintechandroid.model.MovieDetails
 
 data class NetworkMovieDetailsResponse (
-    val nameRu: String,
+    val nameRu: String?,
+    val nameEn: String?,
+    val nameOriginal: String,
     val posterUrl: String,
     val description: String,
     val countries: List<CountryNetwork>,
@@ -20,7 +22,7 @@ data class GenreNetwork (
 
 
 fun NetworkMovieDetailsResponse.asExternalModel() = MovieDetails(
-    title = nameRu,
+    title = nameRu ?: nameEn ?: nameOriginal,
     description = description,
     countries = countries.joinToString(separator = ", ", transform = { it.country }),
     genres = genres.joinToString(separator = ", ", transform = { it.genre }),

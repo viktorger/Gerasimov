@@ -1,5 +1,6 @@
 package com.viktorger.tinkofffintechandroid.presentation.details
 
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -16,6 +17,7 @@ import com.viktorger.tinkofffintechandroid.TFApplication
 import com.viktorger.tinkofffintechandroid.databinding.FragmentFavoriteBinding
 import com.viktorger.tinkofffintechandroid.databinding.FragmentMovieDetailsBinding
 import com.viktorger.tinkofffintechandroid.model.ResultModel
+import com.viktorger.tinkofffintechandroid.presentation.getShimmerDrawable
 import com.viktorger.tinkofffintechandroid.presentation.popular.PopularViewModel
 import com.viktorger.tinkofffintechandroid.presentation.popular.PopularViewModelFactory
 import javax.inject.Inject
@@ -31,8 +33,8 @@ class MovieDetailsFragment : Fragment() {
     lateinit var viewModelFactory: MovieDetailsViewModelFactory
     private val vm: MovieDetailsViewModel by viewModels { viewModelFactory }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
         (requireActivity().application as TFApplication).appComponent.inject(this)
     }
 
@@ -88,20 +90,4 @@ class MovieDetailsFragment : Fragment() {
         }
     }
 
-    private fun getShimmerDrawable(): ShimmerDrawable {
-        val shimmer = Shimmer.AlphaHighlightBuilder()// The attributes for a ShimmerDrawable is set by this builder
-            .setDuration(1800) // how long the shimmering animation takes to do one full sweep
-            .setBaseAlpha(0.7f) //the alpha of the underlying children
-            .setHighlightAlpha(0.6f) // the shimmer alpha amount
-            .setDirection(Shimmer.Direction.LEFT_TO_RIGHT)
-            .setAutoStart(true)
-            .build()
-
-// This is the placeholder for the imageView
-        val shimmerDrawable = ShimmerDrawable().apply {
-            setShimmer(shimmer)
-        }
-
-        return shimmerDrawable
-    }
 }
