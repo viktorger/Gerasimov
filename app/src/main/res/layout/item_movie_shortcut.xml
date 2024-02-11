@@ -43,7 +43,7 @@
             android:text="@string/movie_title"
             android:lines="1"
             android:ellipsize="end"
-            android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+            android:textAppearance="@style/TextAppearance.Material3.TitleLarge.Bold"
 
             app:layout_constraintBottom_toTopOf="@id/tv_shortcut_date"
             app:layout_constraintStart_toEndOf="@+id/siv_shortcut"

@@ -1,7 +1,9 @@
-package com.viktorger.tinkofffintechandroid.presentation.popular
+package com.viktorger.tinkofffintechandroid.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingData
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -12,7 +14,7 @@ import com.viktorger.tinkofffintechandroid.model.MovieShortcut
 
 class ShortcutAdapter(
     private val onClick: (id: Int) -> Unit
-) : ListAdapter<MovieShortcut, ShortcutAdapter.ViewHolder>(UserDiffCallBack) {
+) : PagingDataAdapter<MovieShortcut, ShortcutAdapter.ViewHolder>(UserDiffCallBack) {
 
     object UserDiffCallBack : DiffUtil.ItemCallback<MovieShortcut>() {
         override fun areItemsTheSame(oldItem: MovieShortcut, newItem: MovieShortcut): Boolean =
@@ -26,18 +28,20 @@ class ShortcutAdapter(
         private val binding: ItemMovieShortcutBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(movieShortcut: MovieShortcut, onClick: (id: Int) -> Unit) {
-            binding.root.setOnClickListener {
-                onClick(movieShortcut.id)
-            }
-            binding.tvShortcutTitle.text = movieShortcut.title
-            binding.tvShortcutDate.text = movieShortcut.releaseDate.toString()
+        fun bind(movieShortcut: MovieShortcut?, onClick: (id: Int) -> Unit) {
+            movieShortcut?.let {
+                binding.root.setOnClickListener {
+                    onClick(movieShortcut.id)
+                }
+                binding.tvShortcutTitle.text = movieShortcut.title
+                binding.tvShortcutDate.text = movieShortcut.releaseDate.toString()
 
-            Glide.with(binding.root.context)
-                .load(movieShortcut.imageSource)
-                .placeholder(R.drawable.shortcut)
-                .skipMemoryCache(true) // for caching the image url in case phone is offline
-                .into(binding.sivShortcut)
+                Glide.with(binding.root.context)
+                    .load(movieShortcut.imageUrl)
+                    .placeholder(R.drawable.shortcut)
+                    .skipMemoryCache(true) // for caching the image url in case phone is offline
+                    .into(binding.sivShortcut)
+            }
         }
 
     }

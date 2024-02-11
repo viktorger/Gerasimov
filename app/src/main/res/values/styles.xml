@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Toolbar.Title" parent="TextAppearance.Material3.ActionBar.Title">
+    <style name="TextAppearance.Material3.ActionBar.Title.Bold">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.Material3.TitleLarge.Bold">
         <item name="android:textStyle">bold</item>
     </style>
 </resources>

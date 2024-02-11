@@ -4,5 +4,5 @@ data class MovieShortcut (
     val id: Int,
     val title: String,
     val releaseDate: Int,
-    val imageSource: String
+    val imageUrl: String
 )

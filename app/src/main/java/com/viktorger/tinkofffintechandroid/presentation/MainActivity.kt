@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         val navController = navHostFragment.navController
 
-        // val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding.tbMain.setupWithNavController(navController)
     }
 }

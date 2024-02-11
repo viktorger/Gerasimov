@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.ksp)
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -59,7 +60,12 @@ dependencies {
     implementation(libs.github.glide)
     ksp(libs.glide.compiler)
 
-    implementation(libs.github.glide)
+    // Room
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
+
+    implementation(libs.androidx.paging.runtime)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

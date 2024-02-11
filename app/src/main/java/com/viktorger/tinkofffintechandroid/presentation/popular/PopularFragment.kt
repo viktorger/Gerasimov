@@ -6,8 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.viktorger.tinkofffintechandroid.TFApplication
 import com.viktorger.tinkofffintechandroid.databinding.FragmentPopularBinding
+import com.viktorger.tinkofffintechandroid.presentation.adapters.ShortcutAdapter
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class PopularFragment : Fragment() {
@@ -15,11 +20,14 @@ class PopularFragment : Fragment() {
     private var _binding: FragmentPopularBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var adapter: ShortcutAdapter
-
     @Inject
     lateinit var viewModelFactory: PopularViewModelFactory
-    private val vm: PopularViewModel by viewModels { viewModelFactory}
+    private val vm: PopularViewModel by viewModels { viewModelFactory }
+
+    private val adapter: ShortcutAdapter by lazy { ShortcutAdapter {
+        val action = PopularFragmentDirections.actionPopularFragmentToMovieDetailsFragment(it)
+        findNavController().navigate(action)
+    } }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,19 +45,23 @@ class PopularFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListeners()
-
         initRecycler()
-        vm.loadNetworkData()
+        // vm.loadNetworkData()
+
     }
 
     private fun initRecycler() {
-        adapter = ShortcutAdapter {  }
         binding.rvPopular.adapter = adapter
     }
 
     private fun initListeners() {
-        vm.movieListLiveData.observe(viewLifecycleOwner) {
+        /*vm.movieListLiveData.observe(viewLifecycleOwner) {
             adapter.submitList(it)
+        }*/
+        lifecycleScope.launch {
+            vm.movieShortcutFlow.collectLatest {
+                adapter.submitData(it)
+            }
         }
     }
 

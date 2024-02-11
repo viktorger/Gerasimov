@@ -1,16 +1,13 @@
 package com.viktorger.tinkofffintechandroid.di
 
-import com.viktorger.tinkofffintechandroid.network.KinopoiskNetworkDataSource
-import com.viktorger.tinkofffintechandroid.network.retrofit.RetrofitKinopoiskNetwork
-import dagger.Binds
+import com.viktorger.tinkofffintechandroid.network.retrofit.KinopoiskService
 import dagger.Module
+import dagger.Provides
 
 @Module
-abstract class NetworkModule {
+class NetworkModule {
 
-    @Binds
-    abstract fun provideKinopoiskNetwork(
-        retrofitKinopoiskNetwork: RetrofitKinopoiskNetwork
-    ): KinopoiskNetworkDataSource
+    @Provides
+    fun provideKinopoiskService(): KinopoiskService = KinopoiskService.create()
 
 }
