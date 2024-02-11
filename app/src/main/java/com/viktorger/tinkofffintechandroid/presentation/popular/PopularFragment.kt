@@ -2,13 +2,16 @@ package com.viktorger.tinkofffintechandroid.presentation.popular
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isGone
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.RemoteMediator
@@ -19,7 +22,10 @@ import com.viktorger.tinkofffintechandroid.presentation.adapters.ShortcutLoadSta
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import okhttp3.internal.notify
 import javax.inject.Inject
+
+const val SHOULD_NOT_UPDATE = -1
 
 class PopularFragment : Fragment() {
 
@@ -37,8 +43,8 @@ class PopularFragment : Fragment() {
                     PopularFragmentDirections.actionPopularFragmentToMovieDetailsFragment(it)
                 findNavController().navigate(action)
             },
-            onLongClick = {
-                vm.addToFavorite(it)
+            onLongClick = { movieShortcut, position ->
+                vm.addToFavorite(movieShortcut, position)
             }
         )
     }
@@ -78,6 +84,16 @@ class PopularFragment : Fragment() {
             header = ShortcutLoadStateAdapter(retry),
             footer = ShortcutLoadStateAdapter(retry)
         )
+
+        lifecycleScope.launch {
+            vm.shouldUpdateItem.collectLatest {
+                if (it != SHOULD_NOT_UPDATE) {
+                    adapter.notifyItemChanged(it)
+                }
+
+                Log.d("PopularFragment", "changed")
+            }
+        }
     }
 
     private fun initListeners() {

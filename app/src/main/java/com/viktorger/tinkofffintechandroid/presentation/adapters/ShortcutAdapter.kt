@@ -24,7 +24,7 @@ import kotlinx.coroutines.flow.Flow
 
 class ShortcutAdapter(
     private val onClick: (id: Int) -> Unit,
-    private val onLongClick: (movieShortcut: MovieShortcut) -> Unit
+    private val onLongClick: (movieShortcut: MovieShortcut, position: Int) -> Unit
 ) : PagingDataAdapter<MovieShortcut, ShortcutAdapter.ViewHolder>(UserDiffCallBack) {
 
     object UserDiffCallBack : DiffUtil.ItemCallback<MovieShortcut>() {
@@ -35,21 +35,21 @@ class ShortcutAdapter(
             oldItem == newItem
     }
 
-    class ViewHolder(
+    inner class ViewHolder(
         private val binding: ItemMovieShortcutBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(
-            movieShortcut: MovieShortcut?,
+            position: Int,
             onClick: (id: Int) -> Unit,
-            onLongClick: (movieShortcut: MovieShortcut) -> Unit
+            onLongClick: (movieShortcut: MovieShortcut, position: Int) -> Unit,
         ) {
-            movieShortcut?.let {
+            getItem(position)?.let { movieShortcut ->
                 binding.root.setOnClickListener {
                     onClick(movieShortcut.id)
                 }
                 binding.root.setOnLongClickListener {
-                    onLongClick(movieShortcut)
+                    onLongClick(movieShortcut, position)
                     // binding.ivShortcutStar.visibility = View.VISIBLE
                     true
                 }
@@ -76,7 +76,7 @@ class ShortcutAdapter(
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position), onClick, onLongClick)
+        holder.bind(position, onClick, onLongClick)
     }
 
 }

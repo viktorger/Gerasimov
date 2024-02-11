@@ -3,6 +3,7 @@ package com.viktorger.tinkofffintechandroid.data
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.map
 import com.viktorger.tinkofffintechandroid.database.dao.MovieFavoriteDetailsDao
 import com.viktorger.tinkofffintechandroid.database.dao.MovieFavoriteShortcutDao
 import com.viktorger.tinkofffintechandroid.database.entities.MovieFavoriteShortcutEntity
@@ -24,9 +25,11 @@ import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
+import javax.inject.Singleton
 
 private const val PAGE_SIZE = 20
 
+@Singleton
 class DefaultMovieRepository @Inject constructor(
     private val kinopoiskService: KinopoiskService,
     private val movieFavoriteDetailsDao: MovieFavoriteDetailsDao,
@@ -41,8 +44,12 @@ class DefaultMovieRepository @Inject constructor(
                 pageSize = PAGE_SIZE
             )
         ) {
-            MovieShortcutPagingSource(kinopoiskService, favoriteIds)
-        }.flow
+            MovieShortcutPagingSource(kinopoiskService)
+        }.flow.map { pagingData ->
+            pagingData.map { movieShortcut ->
+                movieShortcut.apply { isFavorite = id in favoriteIds }
+            }
+        }
     }
 
 

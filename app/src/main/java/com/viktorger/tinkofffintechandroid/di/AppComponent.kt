@@ -6,7 +6,9 @@ import com.viktorger.tinkofffintechandroid.presentation.details.MovieDetailsFrag
 import com.viktorger.tinkofffintechandroid.presentation.popular.PopularFragment
 import dagger.BindsInstance
 import dagger.Component
+import javax.inject.Singleton
 
+@Singleton
 @Component(modules = [
     DataModule::class, NetworkModule::class, DatabaseModule::class, DaosModule::class
 ])

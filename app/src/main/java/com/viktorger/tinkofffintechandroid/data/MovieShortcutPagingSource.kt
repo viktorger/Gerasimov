@@ -13,7 +13,6 @@ private const val STARTING_PAGE_INDEX = 1
 
 class MovieShortcutPagingSource(
     private val kinopoiskService: KinopoiskService,
-    private val favoriteIds: List<Int>
 ) : PagingSource<Int, MovieShortcut>() {
 
     override suspend fun load(
@@ -28,9 +27,7 @@ class MovieShortcutPagingSource(
                 val apiCallResponseBody = response.body()!!
 
                 LoadResult.Page(
-                    data = apiCallResponseBody.films.map { it.asExternalModel().apply {
-                        isFavorite = it.filmId in favoriteIds
-                    } },
+                    data = apiCallResponseBody.films.map { it.asExternalModel() },
                     prevKey = if (page == STARTING_PAGE_INDEX) null else page - 1,
                     nextKey = if (page == apiCallResponseBody.pagesCount) null else page + 1
                 )
