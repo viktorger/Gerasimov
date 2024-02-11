@@ -60,6 +60,8 @@ dependencies {
     implementation(libs.github.glide)
     ksp(libs.glide.compiler)
 
+    implementation(libs.shimmer)
+
     // Room
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)

@@ -13,10 +13,14 @@ import kotlinx.coroutines.launch
 class MovieDetailsViewModel(private val movieRepository: MovieRepository) : ViewModel() {
 
     private val defaultDispatcher = Dispatchers.Default
-    private val _detailsLiveData: MutableLiveData<ResultModel<MovieDetails>> = MutableLiveData()
+    private val _detailsLiveData: MutableLiveData<ResultModel<MovieDetails>> = MutableLiveData(
+        ResultModel.Loading
+    )
     val detailsLiveData: LiveData<ResultModel<MovieDetails>> = _detailsLiveData
 
     fun getDetails(movieId: Int) {
+        _detailsLiveData.value = ResultModel.Loading
+
         viewModelScope.launch(defaultDispatcher) {
             val result = movieRepository.getMovieDetails(movieId)
             _detailsLiveData.postValue(result)

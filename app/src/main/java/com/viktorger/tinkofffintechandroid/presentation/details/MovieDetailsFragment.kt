@@ -1,5 +1,6 @@
 package com.viktorger.tinkofffintechandroid.presentation.details
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +9,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.facebook.shimmer.Shimmer
+import com.facebook.shimmer.ShimmerDrawable
 import com.viktorger.tinkofffintechandroid.R
 import com.viktorger.tinkofffintechandroid.TFApplication
 import com.viktorger.tinkofffintechandroid.databinding.FragmentFavoriteBinding
@@ -56,7 +59,7 @@ class MovieDetailsFragment : Fragment() {
                         Glide
                             .with(requireContext())
                             .load(imageUrl)
-                            .placeholder(R.drawable.movie_image)
+                            .placeholder(getShimmerDrawable())
                             .skipMemoryCache(true) // for caching the image url in case phone is offline
                             .into(binding.ivDetails)
 
@@ -65,14 +68,40 @@ class MovieDetailsFragment : Fragment() {
                         binding.tvDetailsGenresList.text = genres
                         binding.tvDetailsCountriesList.text = countries
                     }
+                    binding.pbDetails.visibility = View.GONE
+                    binding.svDetails.visibility = View.VISIBLE
                 }
                 is ResultModel.Loading -> {
-
+                    binding.groupDetailsError.visibility = View.GONE
+                    binding.pbDetails.visibility = View.VISIBLE
                 }
                 is ResultModel.Error -> {
+                    binding.pbDetails.visibility = View.GONE
+                    binding.groupDetailsError.visibility = View.VISIBLE
 
+                    binding.btnDetailsError.setOnClickListener {
+                        vm.getDetails(args.movieId)
+                        binding.btnDetailsError.setOnClickListener(null)
+                    }
                 }
             }
         }
+    }
+
+    private fun getShimmerDrawable(): ShimmerDrawable {
+        val shimmer = Shimmer.AlphaHighlightBuilder()// The attributes for a ShimmerDrawable is set by this builder
+            .setDuration(1800) // how long the shimmering animation takes to do one full sweep
+            .setBaseAlpha(0.7f) //the alpha of the underlying children
+            .setHighlightAlpha(0.6f) // the shimmer alpha amount
+            .setDirection(Shimmer.Direction.LEFT_TO_RIGHT)
+            .setAutoStart(true)
+            .build()
+
+// This is the placeholder for the imageView
+        val shimmerDrawable = ShimmerDrawable().apply {
+            setShimmer(shimmer)
+        }
+
+        return shimmerDrawable
     }
 }

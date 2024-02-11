@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.viktorger.tinkofffintechandroid.TFApplication
 import com.viktorger.tinkofffintechandroid.databinding.FragmentPopularBinding
 import com.viktorger.tinkofffintechandroid.presentation.adapters.ShortcutAdapter
+import com.viktorger.tinkofffintechandroid.presentation.adapters.ShortcutLoadStateAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -47,11 +48,16 @@ class PopularFragment : Fragment() {
         initListeners()
         initRecycler()
         // vm.loadNetworkData()
-
     }
 
     private fun initRecycler() {
-        binding.rvPopular.adapter = adapter
+        val retry = {
+            // TODO
+        }
+        binding.rvPopular.adapter = adapter.withLoadStateHeaderAndFooter(
+            header = ShortcutLoadStateAdapter(retry),
+            footer = ShortcutLoadStateAdapter(retry)
+        )
     }
 
     private fun initListeners() {

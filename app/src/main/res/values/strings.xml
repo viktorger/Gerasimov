@@ -13,4 +13,8 @@
     <string name="genres_list">фантастика, приключения</string>
     <string name="countries">Страны:\u0020</string>
     <string name="countries_list">США</string>
+    <string name="movie_poster">Movie poster</string>
+    <string name="no_internet_icon">No internet icon</string>
+    <string name="error_text">Произошла ошибка при загрузке данных, проверьте подключение к сети</string>
+    <string name="retry_button">Повторить</string>
 </resources>
