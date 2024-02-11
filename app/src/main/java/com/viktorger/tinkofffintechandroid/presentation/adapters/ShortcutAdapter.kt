@@ -2,8 +2,10 @@ package com.viktorger.tinkofffintechandroid.presentation.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -18,9 +20,11 @@ import com.viktorger.tinkofffintechandroid.R
 import com.viktorger.tinkofffintechandroid.databinding.ItemMovieShortcutBinding
 import com.viktorger.tinkofffintechandroid.model.MovieShortcut
 import com.viktorger.tinkofffintechandroid.presentation.getShimmerDrawable
+import kotlinx.coroutines.flow.Flow
 
 class ShortcutAdapter(
-    private val onClick: (id: Int) -> Unit
+    private val onClick: (id: Int) -> Unit,
+    private val onLongClick: (movieShortcut: MovieShortcut) -> Unit
 ) : PagingDataAdapter<MovieShortcut, ShortcutAdapter.ViewHolder>(UserDiffCallBack) {
 
     object UserDiffCallBack : DiffUtil.ItemCallback<MovieShortcut>() {
@@ -35,13 +39,23 @@ class ShortcutAdapter(
         private val binding: ItemMovieShortcutBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(movieShortcut: MovieShortcut?, onClick: (id: Int) -> Unit) {
+        fun bind(
+            movieShortcut: MovieShortcut?,
+            onClick: (id: Int) -> Unit,
+            onLongClick: (movieShortcut: MovieShortcut) -> Unit
+        ) {
             movieShortcut?.let {
                 binding.root.setOnClickListener {
                     onClick(movieShortcut.id)
                 }
+                binding.root.setOnLongClickListener {
+                    onLongClick(movieShortcut)
+                    // binding.ivShortcutStar.visibility = View.VISIBLE
+                    true
+                }
                 binding.tvShortcutTitle.text = movieShortcut.title
                 binding.tvShortcutDate.text = movieShortcut.releaseDate
+                binding.ivShortcutStar.visibility = if (movieShortcut.isFavorite) View.VISIBLE else View.INVISIBLE
 
                 Glide.with(binding.root.context)
                     .load(movieShortcut.imageUrl)
@@ -50,9 +64,6 @@ class ShortcutAdapter(
                     .into(binding.sivShortcut)
             }
 
-        }
-        fun dpToPx(context: Context, dp: Int): Int {
-            return (dp * context.resources.displayMetrics.density).toInt()
         }
     }
 
@@ -65,7 +76,7 @@ class ShortcutAdapter(
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position), onClick)
+        holder.bind(getItem(position), onClick, onLongClick)
     }
 
 }

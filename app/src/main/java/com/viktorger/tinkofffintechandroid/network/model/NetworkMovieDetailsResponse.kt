@@ -1,8 +1,10 @@
 package com.viktorger.tinkofffintechandroid.network.model
 
+import com.viktorger.tinkofffintechandroid.database.entities.MovieFavoriteDetailsEntity
 import com.viktorger.tinkofffintechandroid.model.MovieDetails
 
 data class NetworkMovieDetailsResponse (
+    val kinopoiskId: Int,
     val nameRu: String?,
     val nameEn: String?,
     val nameOriginal: String,
@@ -22,6 +24,15 @@ data class GenreNetwork (
 
 
 fun NetworkMovieDetailsResponse.asExternalModel() = MovieDetails(
+    title = nameRu ?: nameEn ?: nameOriginal,
+    description = description,
+    countries = countries.joinToString(separator = ", ", transform = { it.country }),
+    genres = genres.joinToString(separator = ", ", transform = { it.genre }),
+    imageUrl = posterUrl
+)
+
+fun NetworkMovieDetailsResponse.asEntity() = MovieFavoriteDetailsEntity(
+    id = kinopoiskId,
     title = nameRu ?: nameEn ?: nameOriginal,
     description = description,
     countries = countries.joinToString(separator = ", ", transform = { it.country }),

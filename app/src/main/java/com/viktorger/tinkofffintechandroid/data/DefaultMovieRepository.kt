@@ -3,13 +3,23 @@ package com.viktorger.tinkofffintechandroid.data
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.viktorger.tinkofffintechandroid.database.dao.MovieFavoriteDetailsDao
+import com.viktorger.tinkofffintechandroid.database.dao.MovieFavoriteShortcutDao
+import com.viktorger.tinkofffintechandroid.database.entities.MovieFavoriteShortcutEntity
+import com.viktorger.tinkofffintechandroid.database.entities.asExternalModel
+import com.viktorger.tinkofffintechandroid.database.entities.asFavoriteEntity
 import com.viktorger.tinkofffintechandroid.model.MovieDetails
 import com.viktorger.tinkofffintechandroid.model.MovieShortcut
 import com.viktorger.tinkofffintechandroid.model.ResultModel
+import com.viktorger.tinkofffintechandroid.network.model.asEntity
 import com.viktorger.tinkofffintechandroid.network.model.asExternalModel
 import com.viktorger.tinkofffintechandroid.network.retrofit.KinopoiskService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.IOException
@@ -18,18 +28,23 @@ import javax.inject.Inject
 private const val PAGE_SIZE = 20
 
 class DefaultMovieRepository @Inject constructor(
-    private val kinopoiskService: KinopoiskService
+    private val kinopoiskService: KinopoiskService,
+    private val movieFavoriteDetailsDao: MovieFavoriteDetailsDao,
+    private val movieFavoriteShortcutDao: MovieFavoriteShortcutDao
 ) : MovieRepository {
 
-    override fun getTopMovieShortcutResultStream(): Flow<PagingData<MovieShortcut>> =
-        Pager(
+    override suspend fun getTopMovieShortcutResultStream(): Flow<PagingData<MovieShortcut>> {
+        val favoriteIds = movieFavoriteShortcutDao.getAllIds()
+        return Pager(
             config = PagingConfig(
                 enablePlaceholders = false,
                 pageSize = PAGE_SIZE
             )
         ) {
-            MovieShortcutPagingSource(kinopoiskService)
+            MovieShortcutPagingSource(kinopoiskService, favoriteIds)
         }.flow
+    }
+
 
 
     override suspend fun getMovieDetails(movieId: Int): ResultModel<MovieDetails> =
@@ -52,24 +67,24 @@ class DefaultMovieRepository @Inject constructor(
             }
         }
 
-    /*private suspend fun <T> safeApiCall(apiCall: suspend () -> Response<T>)
-            : ResultModel<T> = withContext(Dispatchers.IO) {
-        try {
-            val apiCallResult = apiCall()
+    override fun saveMovieToFavorites(movieShortcut: MovieShortcut): Flow<Boolean> = flow {
+        val response = kinopoiskService.getMovieDetails(movieId = movieShortcut.id)
+        val apiCallResponseBody = response.body()!!
 
-            if (apiCallResult.isSuccessful) {
-                val apiCallResultBody = apiCallResult.body()!!
-                ResultModel.Success(apiCallResultBody)
-            } else {
-                ResultModel.Error(
-                    HttpException(apiCallResult)
-                )
-            }
-        } catch (e: HttpException) {
-            ResultModel.Error(e)
-        } catch (e: IOException) {
-            ResultModel.Error(e)
-        }
-    }*/
+        movieFavoriteDetailsDao.insertDetails(apiCallResponseBody.asEntity())
+        movieFavoriteShortcutDao.insertDetails(movieShortcut.asFavoriteEntity())
+
+        emit(true)
+    }.catch {
+        emit(false)
+    }
+
+    override suspend fun getFavoriteMoviesShortcuts(): ResultModel<List<MovieShortcut>> =
+        ResultModel.Success(movieFavoriteShortcutDao.getAll().map { it.asExternalModel() })
+
+    override suspend fun getFavoriteMovieDetails(id: Int): ResultModel<MovieDetails> =
+        ResultModel.Success(movieFavoriteDetailsDao.getDetailsById(id).asExternalModel())
+
 }
+
 

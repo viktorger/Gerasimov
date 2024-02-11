@@ -7,6 +7,10 @@ import com.viktorger.tinkofffintechandroid.model.ResultModel
 import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
-    fun getTopMovieShortcutResultStream(): Flow<PagingData<MovieShortcut>>
+    suspend fun getTopMovieShortcutResultStream(): Flow<PagingData<MovieShortcut>>
     suspend fun getMovieDetails(movieId: Int): ResultModel<MovieDetails>
+    fun saveMovieToFavorites(movieShortcut: MovieShortcut): Flow<Boolean>
+    suspend fun getFavoriteMoviesShortcuts(): ResultModel<List<MovieShortcut>>
+    suspend fun getFavoriteMovieDetails(id: Int): ResultModel<MovieDetails>
+
 }

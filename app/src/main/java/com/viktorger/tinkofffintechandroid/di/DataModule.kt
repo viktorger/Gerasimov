@@ -9,7 +9,7 @@ import dagger.Module
 abstract class DataModule {
 
     @Binds
-    abstract fun provideMovieRepository(
+    abstract fun providesMovieRepository(
         defaultMovieRepository: DefaultMovieRepository
     ): MovieRepository
 

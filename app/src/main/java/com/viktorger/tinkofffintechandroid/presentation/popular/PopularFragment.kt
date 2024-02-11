@@ -16,6 +16,7 @@ import com.viktorger.tinkofffintechandroid.TFApplication
 import com.viktorger.tinkofffintechandroid.databinding.FragmentPopularBinding
 import com.viktorger.tinkofffintechandroid.presentation.adapters.ShortcutAdapter
 import com.viktorger.tinkofffintechandroid.presentation.adapters.ShortcutLoadStateAdapter
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,10 +31,16 @@ class PopularFragment : Fragment() {
     private val vm: PopularViewModel by viewModels { viewModelFactory }
 
     private val adapter: ShortcutAdapter by lazy {
-        ShortcutAdapter {
-            val action = PopularFragmentDirections.actionPopularFragmentToMovieDetailsFragment(it)
-            findNavController().navigate(action)
-        }
+        ShortcutAdapter(
+            onClick = {
+                val action =
+                    PopularFragmentDirections.actionPopularFragmentToMovieDetailsFragment(it)
+                findNavController().navigate(action)
+            },
+            onLongClick = {
+                vm.addToFavorite(it)
+            }
+        )
     }
 
     override fun onAttach(context: Context) {
@@ -78,7 +85,7 @@ class PopularFragment : Fragment() {
             adapter.submitList(it)
         }*/
         lifecycleScope.launch {
-            vm.movieShortcutFlow.collectLatest {
+            vm.movieShortcutStateFlow.collectLatest {
                 adapter.submitData(it)
             }
         }

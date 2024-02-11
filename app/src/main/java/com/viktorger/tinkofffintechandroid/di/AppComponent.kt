@@ -7,7 +7,9 @@ import com.viktorger.tinkofffintechandroid.presentation.popular.PopularFragment
 import dagger.BindsInstance
 import dagger.Component
 
-@Component(modules = [DataModule::class, NetworkModule::class])
+@Component(modules = [
+    DataModule::class, NetworkModule::class, DatabaseModule::class, DaosModule::class
+])
 interface AppComponent {
 
     @Component.Factory

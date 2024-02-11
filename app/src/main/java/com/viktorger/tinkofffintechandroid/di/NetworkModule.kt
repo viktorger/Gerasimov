@@ -8,6 +8,6 @@ import dagger.Provides
 class NetworkModule {
 
     @Provides
-    fun provideKinopoiskService(): KinopoiskService = KinopoiskService.create()
+    fun providesKinopoiskService(): KinopoiskService = KinopoiskService.create()
 
 }
