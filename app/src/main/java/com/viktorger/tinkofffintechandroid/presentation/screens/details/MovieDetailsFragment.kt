@@ -70,10 +70,6 @@ class MovieDetailsFragment : Fragment() {
                                     .with(requireContext())
                                     .load(imageUrl)
                                     .placeholder(getShimmerDrawable())
-                                    .error(ContextCompat.getDrawable(
-                                        requireContext(),
-                                        R.drawable.baseline_cloud_off_small
-                                    ))
                                     .skipMemoryCache(true) // for caching the image url in case phone is offline
                                     .into(binding.ivDetails)
 

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.viktorger.tinkofffintechandroid.databinding.ItemMovieShortcutBinding
 import com.viktorger.tinkofffintechandroid.model.MovieShortcut
 import com.viktorger.tinkofffintechandroid.presentation.common.getShimmerDrawable
@@ -52,7 +53,7 @@ class ShortcutAdapter(
                 Glide.with(binding.root.context)
                     .load(movieShortcut.imageUrl)
                     .placeholder(getShimmerDrawable())
-                    .skipMemoryCache(true) // for caching the image url in case phone is offline
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(binding.sivShortcut)
             }
         }
