@@ -9,6 +9,7 @@ import androidx.paging.cachedIn
 import androidx.paging.map
 import com.viktorger.tinkofffintechandroid.data.MovieRepository
 import com.viktorger.tinkofffintechandroid.model.MovieShortcut
+import com.viktorger.tinkofffintechandroid.presentation.model.IntWrapper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,15 +19,14 @@ import kotlinx.coroutines.launch
 
 class PopularViewModel(private val movieRepository: MovieRepository) : ViewModel() {
 
-    /*val movieShortcutFlow = movieRepository.getTopMovieShortcutResultStream()
-        .cachedIn(viewModelScope)*/
-
     private val _movieShortcutStateFlow: MutableStateFlow<PagingData<MovieShortcut>> =
         MutableStateFlow(PagingData.empty())
     val movieShortcutStateFlow: StateFlow<PagingData<MovieShortcut>> = _movieShortcutStateFlow
 
-    private val _shouldUpdateItem: MutableStateFlow<Int> = MutableStateFlow(SHOULD_NOT_UPDATE)
-    val shouldUpdateItem: StateFlow<Int> = _shouldUpdateItem
+    private val _shouldUpdateItem: MutableStateFlow<IntWrapper> = MutableStateFlow(
+        IntWrapper(SHOULD_NOT_UPDATE)
+    )
+    val shouldUpdateItem: StateFlow<IntWrapper> = _shouldUpdateItem
 
     init {
         getMovieShortcuts()
@@ -44,11 +44,16 @@ class PopularViewModel(private val movieRepository: MovieRepository) : ViewModel
                         else it
                     }
                 }
-                if (bool) {
-                    _shouldUpdateItem.value = position
+                if (!bool) {
+                    _shouldUpdateItem.value = IntWrapper(position)
                 }
             }
+
         }
+    }
+
+    fun setShouldNotUpdate() {
+        _shouldUpdateItem.value = (IntWrapper(SHOULD_NOT_UPDATE))
     }
 
     private fun getMovieShortcuts() {

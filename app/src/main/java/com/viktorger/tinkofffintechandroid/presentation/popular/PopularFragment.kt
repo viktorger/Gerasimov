@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isGone
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -15,6 +16,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.RemoteMediator
+import com.viktorger.tinkofffintechandroid.R
 import com.viktorger.tinkofffintechandroid.TFApplication
 import com.viktorger.tinkofffintechandroid.databinding.FragmentPopularBinding
 import com.viktorger.tinkofffintechandroid.presentation.adapters.ShortcutAdapter
@@ -44,7 +46,7 @@ class PopularFragment : Fragment() {
                 findNavController().navigate(action)
             },
             onLongClick = { movieShortcut, position ->
-                vm.addToFavorite(movieShortcut, position)
+                if (!movieShortcut.isFavorite) vm.addToFavorite(movieShortcut, position)
             }
         )
     }
@@ -66,7 +68,6 @@ class PopularFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initListeners()
         initRecycler()
-        // vm.loadNetworkData()
     }
 
     private fun initRecycler() {
@@ -85,28 +86,33 @@ class PopularFragment : Fragment() {
             footer = ShortcutLoadStateAdapter(retry)
         )
 
-        lifecycleScope.launch {
-            vm.shouldUpdateItem.collectLatest {
-                if (it != SHOULD_NOT_UPDATE) {
-                    adapter.notifyItemChanged(it)
-                }
+        binding.rvPopular.setItemAnimator(null);
 
-                Log.d("PopularFragment", "changed")
-            }
-        }
     }
 
     private fun initListeners() {
-        /*vm.movieListLiveData.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
-        }*/
+        binding.btnPopularError.setOnClickListener {
+            adapter.retry()
+        }
+
         lifecycleScope.launch {
             vm.movieShortcutStateFlow.collectLatest {
                 adapter.submitData(it)
             }
         }
-        binding.btnPopularError.setOnClickListener {
-            adapter.retry()
+
+        lifecycleScope.launch {
+            vm.shouldUpdateItem.collectLatest {
+                if (it.number != SHOULD_NOT_UPDATE) {
+                    adapter.notifyItemChanged(it.number)
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.error_text_toast),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    vm.setShouldNotUpdate()
+                }
+            }
         }
     }
 

@@ -18,8 +18,8 @@ class ShortcutLoadStateAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(loadState: LoadState, retry: () -> Unit) {
-            binding.groupDetailsError.isGone = loadState !is LoadState.Error
-            binding.pbDetails.isGone = loadState !is LoadState.Loading
+            binding.groupDetailsError.visibility = if (loadState is LoadState.Error) View.VISIBLE else View.INVISIBLE
+            binding.pbDetails.visibility = if (loadState is LoadState.Loading) View.VISIBLE else View.INVISIBLE
             binding.btnLoadStateError.setOnClickListener {
                 retry()
             }

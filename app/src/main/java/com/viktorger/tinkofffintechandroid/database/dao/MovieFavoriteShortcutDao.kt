@@ -17,6 +17,6 @@ interface MovieFavoriteShortcutDao {
     suspend fun getAllIds(): List<Int>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertDetails(movieFavoriteShortcutEntity: MovieFavoriteShortcutEntity)
+    suspend fun insertDetails(movieFavoriteShortcutEntity: MovieFavoriteShortcutEntity): Long
 
 }

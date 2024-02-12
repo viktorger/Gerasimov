@@ -13,6 +13,6 @@ interface MovieFavoriteDetailsDao {
     @Query("SELECT * FROM movie_favorite_details WHERE movie_id=:id")
     suspend fun getDetailsById(id: Int): MovieFavoriteDetailsEntity
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertDetails(movieFavoriteDetailsEntity: MovieFavoriteDetailsEntity)
+    suspend fun insertDetails(movieFavoriteDetailsEntity: MovieFavoriteDetailsEntity): Long
 
 }

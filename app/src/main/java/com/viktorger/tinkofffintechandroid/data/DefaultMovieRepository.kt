@@ -1,5 +1,6 @@
 package com.viktorger.tinkofffintechandroid.data
 
+import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -78,10 +79,13 @@ class DefaultMovieRepository @Inject constructor(
         val response = kinopoiskService.getMovieDetails(movieId = movieShortcut.id)
         val apiCallResponseBody = response.body()!!
 
-        movieFavoriteDetailsDao.insertDetails(apiCallResponseBody.asEntity())
-        movieFavoriteShortcutDao.insertDetails(movieShortcut.asFavoriteEntity())
+        val insertedDetails = movieFavoriteDetailsDao.insertDetails(apiCallResponseBody.asEntity())
+        val insertedShortcuts = movieFavoriteShortcutDao.insertDetails(movieShortcut.asFavoriteEntity())
+        Log.d("DefaultMovieRepo", "${insertedShortcuts + insertedDetails}")
 
-        emit(true)
+        emit(
+            insertedDetails != -1L && insertedShortcuts != -1L
+        )
     }.catch {
         emit(false)
     }

@@ -27,6 +27,7 @@ class ShortcutAdapter(
     private val onLongClick: (movieShortcut: MovieShortcut, position: Int) -> Unit
 ) : PagingDataAdapter<MovieShortcut, ShortcutAdapter.ViewHolder>(UserDiffCallBack) {
 
+
     object UserDiffCallBack : DiffUtil.ItemCallback<MovieShortcut>() {
         override fun areItemsTheSame(oldItem: MovieShortcut, newItem: MovieShortcut): Boolean =
             oldItem.id == newItem.id
@@ -50,7 +51,7 @@ class ShortcutAdapter(
                 }
                 binding.root.setOnLongClickListener {
                     onLongClick(movieShortcut, position)
-                    // binding.ivShortcutStar.visibility = View.VISIBLE
+                    binding.ivShortcutStar.visibility = View.VISIBLE
                     true
                 }
                 binding.tvShortcutTitle.text = movieShortcut.title
@@ -63,7 +64,6 @@ class ShortcutAdapter(
                     .skipMemoryCache(true) // for caching the image url in case phone is offline
                     .into(binding.sivShortcut)
             }
-
         }
     }
 
@@ -75,8 +75,7 @@ class ShortcutAdapter(
         )
 
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) =
         holder.bind(position, onClick, onLongClick)
-    }
 
 }
