@@ -16,6 +16,7 @@ import com.viktorger.tinkofffintechandroid.database.entities.MovieFavoriteShortc
         MovieFavoriteDetailsEntity::class
    ],
     version = 1,
+    exportSchema = false
 )
 abstract class TFDatabase : RoomDatabase() {
     abstract fun movieFavoriteShortcutDao(): MovieFavoriteShortcutDao

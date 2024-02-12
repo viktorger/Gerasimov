@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.room)
+    // alias(libs.plugins.room)
     id("androidx.navigation.safeargs.kotlin")
 }
 
@@ -42,9 +42,9 @@ android {
     }
 }
 
-room {
+/*room {
     schemaDirectory("$projectDir/schemas")
-}
+}*/
 
 dependencies {
     // Dagger
