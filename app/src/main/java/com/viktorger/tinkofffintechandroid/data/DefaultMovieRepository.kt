@@ -7,7 +7,6 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import com.viktorger.tinkofffintechandroid.database.dao.MovieFavoriteDetailsDao
 import com.viktorger.tinkofffintechandroid.database.dao.MovieFavoriteShortcutDao
-import com.viktorger.tinkofffintechandroid.database.entities.MovieFavoriteShortcutEntity
 import com.viktorger.tinkofffintechandroid.database.entities.asExternalModel
 import com.viktorger.tinkofffintechandroid.database.entities.asFavoriteEntity
 import com.viktorger.tinkofffintechandroid.model.MovieDetails
@@ -19,8 +18,8 @@ import com.viktorger.tinkofffintechandroid.network.retrofit.KinopoiskService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
@@ -36,9 +35,10 @@ class DefaultMovieRepository @Inject constructor(
     private val movieFavoriteDetailsDao: MovieFavoriteDetailsDao,
     private val movieFavoriteShortcutDao: MovieFavoriteShortcutDao
 ) : MovieRepository {
+    private val ioDispatcher = Dispatchers.IO
 
     override suspend fun getTopMovieShortcutResultStream(): Flow<PagingData<MovieShortcut>> {
-        val favoriteIds = movieFavoriteShortcutDao.getAllIds()
+        val favoriteIds = withContext(ioDispatcher) { movieFavoriteShortcutDao.getAllIds() }
         return Pager(
             config = PagingConfig(
                 enablePlaceholders = false,
@@ -56,7 +56,7 @@ class DefaultMovieRepository @Inject constructor(
 
 
     override suspend fun getMovieDetails(movieId: Int): ResultModel<MovieDetails> =
-        withContext(Dispatchers.IO) {
+        withContext(ioDispatcher) {
             try {
                 val response = kinopoiskService.getMovieDetails(movieId)
 
@@ -88,12 +88,12 @@ class DefaultMovieRepository @Inject constructor(
         )
     }.catch {
         emit(false)
-    }
+    }.flowOn(ioDispatcher)
 
     override fun getFavoriteMoviesShortcuts(): Flow<List<MovieShortcut>> =
         movieFavoriteShortcutDao.getAll().map { it.map {entity ->
             entity.asExternalModel()
-        } }.catch {  }
+        } }.flowOn(ioDispatcher)
 
     override suspend fun getFavoriteMovieDetails(id: Int): ResultModel<MovieDetails> =
         ResultModel.Success(movieFavoriteDetailsDao.getDetailsById(id).asExternalModel())

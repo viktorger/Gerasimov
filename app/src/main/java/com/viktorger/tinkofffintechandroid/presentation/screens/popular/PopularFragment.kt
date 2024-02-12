@@ -19,6 +19,7 @@ import com.viktorger.tinkofffintechandroid.TFApplication
 import com.viktorger.tinkofffintechandroid.databinding.FragmentPopularBinding
 import com.viktorger.tinkofffintechandroid.presentation.adapters.ShortcutPagingDataAdapter
 import com.viktorger.tinkofffintechandroid.presentation.adapters.ShortcutLoadStateAdapter
+import com.viktorger.tinkofffintechandroid.presentation.model.NetworkStatus
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -38,7 +39,9 @@ class PopularFragment : Fragment() {
         ShortcutPagingDataAdapter(
             onClick = {
                 val action =
-                    PopularFragmentDirections.actionPopularFragmentToMovieDetailsFragment(it)
+                    PopularFragmentDirections.actionPopularFragmentToMovieDetailsFragment(
+                        it, NetworkStatus.Online
+                    )
                 findNavController().navigate(action)
             },
             onLongClick = { movieShortcut, position ->

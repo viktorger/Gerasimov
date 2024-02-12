@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.viktorger.tinkofffintechandroid.database.entities.MovieFavoriteDetailsEntity
 import com.viktorger.tinkofffintechandroid.database.entities.MovieFavoriteShortcutEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MovieFavoriteDetailsDao {

@@ -12,7 +12,7 @@
 
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:elevation="2dp"
+        android:elevation="3dp"
         app:layout_constraintEnd_toEndOf="parent"
 
         app:layout_constraintStart_toStartOf="parent"
@@ -35,13 +35,12 @@
 
     <Button
         android:id="@+id/btn_main_1"
-        style="@style/ShapeAppearanceOverlay.Material3.Button"
+        style="@style/Widget.Material3.Button"
         android:layout_width="0dp"
         android:layout_height="70dp"
         android:layout_marginEnd="16dp"
         android:text="@string/popular"
         app:layout_constrainedHeight="true"
-
 
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toStartOf="@+id/btn_main_2"
@@ -53,6 +52,7 @@
         android:layout_width="0dp"
         android:layout_height="70dp"
         android:text="@string/favorite"
+        style="@style/Widget.Material3.Button.Unselected"
 
         app:layout_constrainedHeight="true"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
@@ -60,6 +60,7 @@
         app:layout_constraintStart_toEndOf="@+id/btn_main_1" />
 
     <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_main_buttons"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:constraint_referenced_ids="btn_main_1, btn_main_2" />

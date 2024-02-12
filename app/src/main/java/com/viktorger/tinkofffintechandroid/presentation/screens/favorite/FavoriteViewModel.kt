@@ -20,8 +20,6 @@ class FavoriteViewModel(
     private val movieRepository: MovieRepository
 ) : ViewModel() {
 
-    /*private val _movieShortcutStateFlow: MutableStateFlow<List<MovieShortcut>> =
-        MutableStateFlow(listOf())*/
     val movieShortcutStateFlow: StateFlow<ResultModel<List<MovieShortcut>>> = movieRepository
         .getFavoriteMoviesShortcuts()
         .map {
@@ -29,22 +27,10 @@ class FavoriteViewModel(
                 ResultModel.Success(it)
             else
                 ResultModel.Error(Exception("Empty list"))
-        }
-        .stateIn(
+        }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = ResultModel.Loading
         )
-
-    /*init {
-        getMovieShortcuts()
-    }
-
-    private fun getMovieShortcuts() {
-        viewModelScope.launch {
-            _movieShortcutStateFlow.value = movieRepository.getFavoriteMoviesShortcuts()
-                .first()
-        }
-    }*/
 
 }

@@ -19,6 +19,7 @@ import com.viktorger.tinkofffintechandroid.databinding.FragmentFavoriteBinding
 import com.viktorger.tinkofffintechandroid.model.ResultModel
 import com.viktorger.tinkofffintechandroid.presentation.adapters.ShortcutAdapter
 import com.viktorger.tinkofffintechandroid.presentation.adapters.ShortcutPagingDataAdapter
+import com.viktorger.tinkofffintechandroid.presentation.model.NetworkStatus
 import com.viktorger.tinkofffintechandroid.presentation.screens.popular.PopularFragmentDirections
 import com.viktorger.tinkofffintechandroid.presentation.screens.popular.PopularViewModel
 import com.viktorger.tinkofffintechandroid.presentation.screens.popular.PopularViewModelFactory
@@ -39,7 +40,9 @@ class FavoriteFragment : Fragment() {
         ShortcutAdapter(
             onClick = {
                 val action =
-                    FavoriteFragmentDirections.actionFavoriteFragmentToMovieDetailsFragment(it)
+                    FavoriteFragmentDirections.actionFavoriteFragmentToMovieDetailsFragment(
+                        it, NetworkStatus.Offline
+                    )
                 findNavController().navigate(action)
             },
             onLongClick = { movieShortcut, position ->

@@ -7,4 +7,15 @@
     <style name="TextAppearance.Material3.TitleLarge.Bold">
         <item name="android:textStyle">bold</item>
     </style>
+
+    <style name="Widget.Material3.Button.Unselected">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Material3.Button.Unselected</item>
+    </style>
+
+    <style name="ThemeOverlay.Material3.Button.Unselected">
+
+        <item name="colorOnContainer">?attr/colorPrimary</item>
+        <item name="colorContainer">@color/calcareous_sinter</item>
+    </style>
+
 </resources>

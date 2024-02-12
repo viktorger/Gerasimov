@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/favoriteFragment">
+    app:startDestination="@id/popularFragment">
 
 
     <fragment
@@ -33,5 +33,18 @@
         <argument
             android:name="movieId"
             app:argType="integer" />
+        <argument
+            android:name="networkStatus"
+            app:argType="com.viktorger.tinkofffintechandroid.presentation.model.NetworkStatus" />
     </fragment>
+    <action
+        android:id="@+id/action_global_favoriteFragment"
+        app:destination="@id/favoriteFragment"
+        app:launchSingleTop="true"
+        app:popUpTo="@+id/your_MainGraph_id"/>
+    <action
+        android:id="@+id/action_global_popularFragment"
+        app:destination="@id/popularFragment"
+        app:launchSingleTop="true"
+        app:popUpTo="@+id/your_MainGraph_id" />
 </navigation>
