@@ -1,4 +1,4 @@
-package com.viktorger.tinkofffintechandroid.presentation
+package com.viktorger.tinkofffintechandroid.presentation.screens
 
 import android.os.Bundle
 import android.view.Menu

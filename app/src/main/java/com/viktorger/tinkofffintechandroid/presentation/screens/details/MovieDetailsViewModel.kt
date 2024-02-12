@@ -1,4 +1,4 @@
-package com.viktorger.tinkofffintechandroid.presentation.details
+package com.viktorger.tinkofffintechandroid.presentation.screens.details
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

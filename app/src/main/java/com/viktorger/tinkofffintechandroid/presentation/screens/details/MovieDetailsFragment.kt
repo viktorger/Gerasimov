@@ -1,7 +1,6 @@
-package com.viktorger.tinkofffintechandroid.presentation.details
+package com.viktorger.tinkofffintechandroid.presentation.screens.details
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,16 +9,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
-import com.facebook.shimmer.Shimmer
-import com.facebook.shimmer.ShimmerDrawable
-import com.viktorger.tinkofffintechandroid.R
 import com.viktorger.tinkofffintechandroid.TFApplication
-import com.viktorger.tinkofffintechandroid.databinding.FragmentFavoriteBinding
 import com.viktorger.tinkofffintechandroid.databinding.FragmentMovieDetailsBinding
 import com.viktorger.tinkofffintechandroid.model.ResultModel
-import com.viktorger.tinkofffintechandroid.presentation.getShimmerDrawable
-import com.viktorger.tinkofffintechandroid.presentation.popular.PopularViewModel
-import com.viktorger.tinkofffintechandroid.presentation.popular.PopularViewModelFactory
+import com.viktorger.tinkofffintechandroid.presentation.common.getShimmerDrawable
 import javax.inject.Inject
 
 class MovieDetailsFragment : Fragment() {

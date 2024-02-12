@@ -63,7 +63,7 @@ dependencies {
 
     // Glide
     implementation(libs.github.glide)
-    ksp(libs.glide.compiler)
+    ksp(libs.glide.ksp)
 
     implementation(libs.shimmer)
 

@@ -5,17 +5,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.viktorger.tinkofffintechandroid.databinding.ItemMovieShortcutBinding
 import com.viktorger.tinkofffintechandroid.model.MovieShortcut
 import com.viktorger.tinkofffintechandroid.presentation.common.getShimmerDrawable
 
-class ShortcutAdapter(
+class ShortcutPagingDataAdapter(
     private val onClick: (id: Int) -> Unit,
     private val onLongClick: (movieShortcut: MovieShortcut, position: Int) -> Unit
-) : ListAdapter<MovieShortcut, ShortcutAdapter.ViewHolder>(UserDiffCallBack) {
+) : PagingDataAdapter<MovieShortcut, ShortcutPagingDataAdapter.ViewHolder>(UserDiffCallBack) {
 
 
     object UserDiffCallBack : DiffUtil.ItemCallback<MovieShortcut>() {
@@ -46,8 +45,7 @@ class ShortcutAdapter(
                 }
                 binding.tvShortcutTitle.text = movieShortcut.title
                 binding.tvShortcutDate.text = movieShortcut.releaseDate
-                binding.ivShortcutStar.visibility =
-                    if (movieShortcut.isFavorite) View.VISIBLE else View.INVISIBLE
+                binding.ivShortcutStar.visibility = if (movieShortcut.isFavorite) View.VISIBLE else View.INVISIBLE
 
                 Glide.with(binding.root.context)
                     .load(movieShortcut.imageUrl)
@@ -60,12 +58,13 @@ class ShortcutAdapter(
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
-        ItemMovieShortcutBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false
+            ItemMovieShortcutBinding.inflate(
+                LayoutInflater.from(parent.context), parent, false
+            )
         )
-    )
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) =
         holder.bind(position, onClick, onLongClick)
+
 }

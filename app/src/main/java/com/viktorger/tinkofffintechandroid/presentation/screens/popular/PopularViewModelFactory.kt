@@ -1,4 +1,4 @@
-package com.viktorger.tinkofffintechandroid.presentation.popular
+package com.viktorger.tinkofffintechandroid.presentation.screens.popular
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

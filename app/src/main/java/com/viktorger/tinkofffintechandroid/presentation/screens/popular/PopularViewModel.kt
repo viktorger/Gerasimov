@@ -1,4 +1,4 @@
-package com.viktorger.tinkofffintechandroid.presentation.popular
+package com.viktorger.tinkofffintechandroid.presentation.screens.popular
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

@@ -5,26 +5,25 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.MainActivity">
+    tools:context=".presentation.screens.MainActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tb_main"
 
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:titleTextAppearance="@style/TextAppearance.Material3.ActionBar.Title.Bold"
         android:elevation="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
 
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextAppearance="@style/TextAppearance.Material3.ActionBar.Title.Bold" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:elevation="1dp"
 
         app:defaultNavHost="true"
 
@@ -33,5 +32,57 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tb_main"
         app:navGraph="@navigation/nav_graph" />
+
+    <Button
+        android:id="@+id/btn_main_1"
+        style="@style/ShapeAppearanceOverlay.Material3.Button"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/popular"
+        app:layout_constrainedHeight="true"
+
+
+        app:layout_constraintBottom_toTopOf="@+id/guideline3"
+        app:layout_constraintEnd_toStartOf="@+id/btn_main_2"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="@+id/guideline" />
+
+    <Button
+        android:id="@+id/btn_main_2"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:text="@string/favorite"
+
+        app:layout_constrainedHeight="true"
+        app:layout_constraintBottom_toTopOf="@+id/guideline3"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toEndOf="@+id/btn_main_1" />
+
+    <androidx.constraintlayout.widget.Group
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:constraint_referenced_ids="btn_main_1, btn_main_2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="16dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="16dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

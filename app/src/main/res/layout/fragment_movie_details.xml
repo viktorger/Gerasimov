@@ -21,23 +21,23 @@
         android:layout_height="0dp"
         android:visibility="gone"
 
-        app:constraint_referenced_ids="iv_popular_error, tv_popular_error, btn_details_error" />
+        app:constraint_referenced_ids="iv_favorite_error, tv_favorite_error, btn_details_error" />
 
     <ImageView
-        android:id="@+id/iv_popular_error"
+        android:id="@+id/iv_favorite_error"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/no_internet_icon"
         android:src="@drawable/baseline_cloud_off_100"
 
-        app:layout_constraintBottom_toTopOf="@id/tv_popular_error"
+        app:layout_constraintBottom_toTopOf="@id/tv_favorite_error"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
-        android:id="@+id/tv_popular_error"
+        android:id="@+id/tv_favorite_error"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="40dp"
@@ -50,7 +50,7 @@
         app:layout_constraintBottom_toTopOf="@id/btn_details_error"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_popular_error" />
+        app:layout_constraintTop_toBottomOf="@id/iv_favorite_error" />
 
     <Button
         android:id="@+id/btn_details_error"
@@ -61,7 +61,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_popular_error" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_favorite_error" />
 
     <ScrollView
         android:id="@+id/sv_details"
@@ -79,7 +79,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="20dp"
-            tools:context=".presentation.details.MovieDetailsFragment">
+            tools:context=".presentation.screens.details.MovieDetailsFragment">
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/gl_details_1"

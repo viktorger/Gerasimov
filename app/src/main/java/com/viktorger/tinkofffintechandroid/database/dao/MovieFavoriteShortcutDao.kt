@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface MovieFavoriteShortcutDao {
     @Query("SELECT * FROM movie_favorite_shortcut")
-    suspend fun getAll(): List<MovieFavoriteShortcutEntity>
+    fun getAll(): Flow<List<MovieFavoriteShortcutEntity>>
 
     @Query("SELECT movie_id FROM movie_favorite_shortcut")
     suspend fun getAllIds(): List<Int>

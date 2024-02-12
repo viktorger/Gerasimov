@@ -90,8 +90,10 @@ class DefaultMovieRepository @Inject constructor(
         emit(false)
     }
 
-    override suspend fun getFavoriteMoviesShortcuts(): ResultModel<List<MovieShortcut>> =
-        ResultModel.Success(movieFavoriteShortcutDao.getAll().map { it.asExternalModel() })
+    override fun getFavoriteMoviesShortcuts(): Flow<List<MovieShortcut>> =
+        movieFavoriteShortcutDao.getAll().map { it.map {entity ->
+            entity.asExternalModel()
+        } }.catch {  }
 
     override suspend fun getFavoriteMovieDetails(id: Int): ResultModel<MovieDetails> =
         ResultModel.Success(movieFavoriteDetailsDao.getDetailsById(id).asExternalModel())

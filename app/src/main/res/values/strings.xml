@@ -20,4 +20,5 @@
     <string name="retry_button">Повторить</string>
     <string name="search">Поиск</string>
     <string name="movie_shortcut_image">Movie shortcut image</string>
+    <string name="empty_text">Пусто :(</string>
 </resources>

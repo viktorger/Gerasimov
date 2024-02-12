@@ -10,7 +10,7 @@ interface MovieRepository {
     suspend fun getTopMovieShortcutResultStream(): Flow<PagingData<MovieShortcut>>
     suspend fun getMovieDetails(movieId: Int): ResultModel<MovieDetails>
     fun saveMovieToFavorites(movieShortcut: MovieShortcut): Flow<Boolean>
-    suspend fun getFavoriteMoviesShortcuts(): ResultModel<List<MovieShortcut>>
+    fun getFavoriteMoviesShortcuts(): Flow<List<MovieShortcut>>
     suspend fun getFavoriteMovieDetails(id: Int): ResultModel<MovieDetails>
 
 }
